@@ -534,7 +534,7 @@ class EmbyReporter(_PluginBase):
         except Exception as e:
             logger.error("退出插件失败：%s" % str(e))
 
-    def draw(self, res_path, movies, tvshows, show_time=True, width=800, height=600):
+    def draw(self, res_path, movies, tvshows, show_time=True):
         # 默认路径 默认图
         if not res_path:
             res_path = os.path.join(Path(__file__).parent, "res")
@@ -549,11 +549,9 @@ class EmbyReporter(_PluginBase):
         bg = Image.open(bg_path)
         mask = Image.open(mask_path)
         bg.paste(mask, (0, 0), mask)
-        font_size = 18
-        font = ImageFont.truetype(font_path, font_size)
+        font = ImageFont.truetype(font_path, 18)
         font_small = ImageFont.truetype(font_path, 14)
         font_count = ImageFont.truetype(font_path, 8)
-
 
         exites_movies = []
         for i in movies:
@@ -640,7 +638,7 @@ class EmbyReporter(_PluginBase):
                     name += ".."
                 # 绘制封面
                 cover = Image.open(BytesIO(data))
-                cover = cover.resize((int(width / 10), int(height / 10)))
+                cover = cover.resize((108, 159))
                 bg.paste(cover, (73 + 145 * index, 379 + offset_y))
                 # 绘制 播放次数、影片名称
                 text = ImageDraw.Draw(bg)
@@ -658,7 +656,6 @@ class EmbyReporter(_PluginBase):
             save_path = "/public/report.jpg"
             if Path(save_path).exists():
                 Path.unlink(Path(save_path))
-            bg.thumbnail((width, height), Image.ANTIALIAS)
             bg.save(save_path)
             return save_path
         return None
