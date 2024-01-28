@@ -148,9 +148,12 @@ class EmbyReporter(_PluginBase):
 
         # 绘制海报
         report_path = self.draw(res_path=self._res_dir,
-                                movies=movies,
-                                tvshows=tvshows,
-                                show_time=self.show_time)
+                        movies=movies,
+                        tvshows=tvshows,
+                        show_time=self.show_time,
+                        width=833,  # 指定图片宽度
+                        height=1000)  # 指定图片高度
+
 
         if not report_path:
             logger.error("生成海报失败")
